@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h3>Select PDF files to be merged</h3>
+
+
+<form id="my_form" method="POST" enctype="multipart/form-data" action="/merge">
+
+<div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text" >Upload</span>
+  </div>
+  <div class="custom-file">
+  <input type="file" name="file[]" multiple="">
+  </div>
+</div>
+  <br>
+<br>
+
+<a href="javascript:{}"  onclick="document.getElementById('my_form').submit(); return false;" class="btn btn-success btn-sm">
+  <i class="glyphicon glyphicon-plus"></i>
+  Merge
+</a>
+
+</form>
+
+
+
+
+
+<!--{% for book in books %}
+<div class="media">
+  <a href="/books/{{book.id}}">
+    <div class="media-left">
+      {% if book.imageUrl %}
+        <img src="{{book.imageUrl}}">
+      {% else %}
+        <img src="http://placekitten.com/g/128/192">
+      {% endif %}
+    </div>
+    <div class="media-body">
+      <h4>{{book.title}}</h4>
+      <p>{{book.author}}</p>
+    </div>
+  </a>
+</div>
+{% else %}
+<p>No books found</p>
+{% endfor %}
+
+{% if last_title %}
+<nav>
+  <ul class="pager">
+    <li><a href="?start_after={{last_title}}">More</a></li>
+  </ul>
+</nav>
+{% endif %}
+-->
+{% endblock %}
