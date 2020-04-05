@@ -15,9 +15,8 @@
 import flask
 import io
 
-from flask import current_app, flash, Flask, Markup, redirect, render_template, send_file
-from flask import request, url_for
-from PyPDF2 import PdfFileMerger, PageRange
+from flask import Flask, render_template, Response
+from PyPDF2 import PdfFileMerger
 
 app = Flask(__name__)
 app.config.update(
@@ -38,9 +37,9 @@ def uploadpdf():
     # If an image was uploaded, update the data to point to the new image.
     uploaded_files = flask.request.files.getlist("file[]")
     pdffiles = [f for f in uploaded_files if f.filename.endswith((".pdf"))]
-    print 'murugaaaaaaaa'
     merger = PdfFileMerger()
-    output = io.BytesIO()
+
+    temp = io.BytesIO()
 
     count = 0;
     for pdf in pdffiles:
@@ -49,12 +48,16 @@ def uploadpdf():
         # merger.append(pdffile, pages=PageRange('1:-1'))
         merger.append(pdf)
 
-    print merger.__sizeof__()
+    print(merger.__sizeof__())
 
     if count > 0:
-        merger.write("result.pdf")
+        merger.write(temp)
         merger.close()
-        return send_file("result.pdf", as_attachment=True)
+        temp.seek(0)
+        return Response(temp,
+                 mimetype="application/pdf",
+                 headers={"Content-Disposition":
+                              "attachment; filename=result.pdf"})
 
     return "Invalid files"
 
